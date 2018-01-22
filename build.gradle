@@ -1,0 +1,88 @@
+buildscript {
+    ext.deps = [
+            springBootVersion: "1.5.2.RELEASE",
+            log4jVersion: "2.6.2",
+    ]
+    repositories {
+        mavenCentral()
+
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.5.9.RELEASE")
+        classpath group: 'org.whitesource', name: 'whitesource-gradle-plugin', version: '0.7'
+        classpath('se.transmode.gradle:gradle-docker:1.2')
+    }
+
+}
+
+
+apply plugin: 'java'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'groovy'
+apply plugin: 'application'
+apply plugin: 'whitesource'
+
+
+jar {
+    baseName = 'a2z-service'
+    version = '0.0.1'
+}
+
+repositories {
+    mavenCentral()
+    maven { url "http://dl.bintray.com/rockem/maven" }
+}
+
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+jar {
+    manifest {
+        attributes(
+                'Main-Class': 'com.heed.zip.Application'
+        )
+    }
+}
+
+dependencies {
+
+
+    testCompile(
+            'junit:junit:4.12',
+            'org.codehaus.groovy:groovy-all:2.4.4',
+            'org.spockframework:spock-core:1.0-groovy-2.4',
+            'org.codehaus.groovy.modules.http-builder:http-builder:0.7.1',
+            'org.springframework.boot:spring-boot-starter-web',
+            'org.springframework.boot:spring-boot-starter-test',
+            'org.rockem:blink-http:0.5.0',
+
+
+    )
+    compile("org.springframework.boot:spring-boot-starter-web") {
+        exclude module: "spring-boot-starter-tomcat"
+    }
+    compile('org.codehaus.groovy.modules.http-builder:http-builder:0.5.0')
+    compile("org.springframework.boot:spring-boot-starter-jetty")
+    compile("org.springframework.boot:spring-boot-starter-actuator")
+    compile ('org.codehaus.groovy:groovy-all:2.4.4')
+    compile group: 'org.json', name: 'json', version: '20160810'
+    compile group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1'
+    compile 'org.codehaus.jackson:jackson-mapper-asl:1.9.13'
+    compile 'com.google.code.gson:gson:2.8.2'
+    compile 'com.google.guava:guava:23.5-jre'
+    compile "org.springframework.boot:spring-boot-starter-data-mongodb"
+
+}
+
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.13'
+}
